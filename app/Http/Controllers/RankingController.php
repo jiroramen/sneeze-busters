@@ -8,6 +8,7 @@ use App\Models\SneezeLog; // SneezeLogモデルも使うのでインポート
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // 小林追加
 
 class RankingController extends Controller
 {
@@ -24,34 +25,55 @@ class RankingController extends Controller
 
         $worstSneezePrefecture = $nationalRankings->first(); // 1位のデータを取得
 
-        // --- 個人ランキング関連のデータを取得 --- (小林さん担当部分)
-        $personalRankings = null;
+        // --- 個人ランキング関連（小林担当部分・修正版） ---
+        
+        // 1. 今日の個人ランキングTOP10を取得（くしゃみ回数の合計順）
+        $personalRankings = SneezeLog::whereDate('created_at', $today)
+            ->select('user_id', DB::raw('SUM(count) as total_count'), DB::raw('AVG(level) as avg_level'))
+            ->groupBy('user_id')
+            ->orderBy('total_count', 'desc') // 回数が多い順
+            ->with('user') // ユーザー名を表示するためにリレーションをロード
+            ->take(10) // 上位10名を表示
+            ->get();
+
+        // 2. ログインユーザー自身の順位と成績を計算
+        $myRanking = null;
         if (Auth::check()) {
             $user = Auth::user();
-            $userTotalCount = SneezeLog::where('user_id', $user->id)
+            
+            // 自分の今日の合計と平均を取得
+            $myStats = SneezeLog::where('user_id', $user->id)
                 ->whereDate('created_at', $today)
-                ->sum('count');
+                ->selectRaw('SUM(count) as total_count, AVG(level) as avg_level')
+                ->first();
 
-            $userAverageLevel = SneezeLog::where('user_id', $user->id)
-                ->whereDate('created_at', $today)
-                ->avg('level');
+            // データがある場合のみ順位を計算
+            if ($myStats && $myStats->total_count > 0) {
+                // 自分よりくしゃみ回数が多いユーザーの人数を数える（+1が自分の順位）
+                // ※サブクエリを使って「合計回数が自分より多いユーザー数」を取得
+                $rank = SneezeLog::whereDate('created_at', $today)
+                    ->groupBy('user_id')
+                    ->selectRaw('SUM(count) as total_count')
+                    ->having('total_count', '>', $myStats->total_count)
+                    ->get()
+                    ->count() + 1;
 
-            // 全国ランキングの中から自分の順位を探す
-            $userRank = $nationalRankings->firstWhere('prefecture', $user->prefecture);
-
-            $personalRankings = [
-                'rank' => $userRank ? $userRank->rank : null,
-                'sneeze_count' => $userTotalCount,
-                'avg_level' => round($userAverageLevel, 1),
-                'prefecture' => $user->prefecture,
-            ];
+                $myRanking = [
+                    'rank' => $rank,
+                    'name' => $user->name,
+                    'sneeze_count' => $myStats->total_count,
+                    'avg_level' => round($myStats->avg_level, 1), // 小数点第1位まで
+                ];
+            }
         }
 
+        // ビューに渡す変数を追加 ($myRanking)
         return view('ranking.index', compact(
             'currentTab',
             'nationalRankings',
             'worstSneezePrefecture',
-            'personalRankings'
+            'personalRankings', // TOP10リスト
+            'myRanking'         // 自分の順位データ
         ));
     }
 }

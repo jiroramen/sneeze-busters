@@ -130,7 +130,7 @@ class WeatherController extends Controller
             // OGP用のデータを追加
             $viewData['title'] = "今日のくしゃみ確率 {$sneezeRate}%";
             $viewData['description'] = $shareText;
-            $viewData['ogImage'] = asset('images/ogp-default.png');
+            $viewData['ogImage'] = secure_asset('images/ogp-default.png');
 
         } else {
             // 天気取得失敗時のデータ

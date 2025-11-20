@@ -141,7 +141,7 @@
                 <p class="text-sm opacity-90">
                     {{ $userNoseTypeDescription }}
                 </p>
-                <a href="{{ route('profile.edit') }}" class="text-xs mt-4 inline-block text-white/80 hover:text-white underline">
+                <a href="{{ route('profile.edit') }}" class="text-lg font-bold mt-4 inline-block text-white/80 hover:text-white underline">
                     体質情報を設定する &gt;
                 </a>
             </div>
@@ -163,16 +163,6 @@
                 <a href="{{ route('profile.edit') }}" class="nav-button purple">
                     <span class="nav-button-icon">⚙️</span>
                     設定
-                </a>
-            </div>
-
-            {{-- Twitterシェアボタン --}}
-            <div class="col-span-full mt-8">
-                <a href="{{ $twitterShareUrl }}" target="_blank" class="w-full bg-black text-white py-3 px-4 rounded-full flex items-center justify-center space-x-2 hover:bg-gray-800 transition-colors font-bold text-base">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 1200 1227">
-                        <path d="M714.163 519.284L1160.89 0H1055.03L667.137 450.887L357.328 0H0L468.492 681.821L0 1226.37H105.866L515.491 750.218L842.672 1226.37H1200L714.137 519.284H714.163ZM569.165 687.828L521.697 619.924L144.011 79.6904H306.615L611.412 515.685L658.88 583.589L1058.01 1154.97H895.408L569.165 687.854V687.828Z" />
-                    </svg>
-                    <span>結果をXでシェアする</span>
                 </a>
             </div>
 
