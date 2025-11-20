@@ -141,7 +141,7 @@
                 <p class="text-sm opacity-90">
                     {{ $userNoseTypeDescription }}
                 </p>
-                <a href="{{ route('profile.edit') }}" class="text-xs mt-4 inline-block text-white/80 hover:text-white underline">
+                <a href="{{ route('profile.edit') }}" class="text-lg font-bold mt-4 inline-block text-white/80 hover:text-white underline">
                     体質情報を設定する &gt;
                 </a>
             </div>

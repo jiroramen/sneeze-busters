@@ -18,11 +18,6 @@ use App\Http\Controllers\StatisticsController;
 |
 */
 
-// --- エントリーページ ---
-Route::get('/', function () {
-    return view('entry'); // resources/views/entry.blade.php を表示
-})->name('entry');
-
 // --- 天気予報ページ ---
 // ログイン前（ゲスト）用のトップページ
 Route::get('/', [WeatherController::class, 'index'])->name('home');

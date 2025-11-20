@@ -8,13 +8,11 @@
     <div class="py-12 px-4 sm:px-6 lg:px-8 bg-[#F8F8F8] min-h-screen">
         <div class="max-w-4xl mx-auto space-y-8">
 
-            {{-- ★★★ 文言修正 ★★★ --}}
             {{-- 全国くしゃみ最多エリア カード --}}
             @if($worstSneezePrefecture)
             <div class="dashboard-card p-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white relative overflow-hidden">
                 <div class="flex items-center mb-4">
                     <span class="text-4xl mr-3">🏆</span>
-                    {{-- 「ワースト1位」→「最多エリア」に変更 --}}
                     <h3 class="text-2xl font-bold">くしゃみ最多エリア</h3>
                 </div>
                 <p class="text-sm opacity-90 mb-6">本日最もくしゃみが多かった地域</p>
@@ -48,65 +46,118 @@
 
                 <div class="p-6">
                     @if ($currentTab === 'national')
-                    {{-- 全国ランキング表示 --}}
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">本日のランキング<br><span class="text-sm font-normal text-gray-600">くしゃみ回数が多い順</span></h3>
+                        {{-- ================= 全国ランキング表示 ================= --}}
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">都道府県別ランキング<br><span class="text-sm font-normal text-gray-600">くしゃみ回数が多い順</span></h3>
 
-                    @if($nationalRankings->isNotEmpty())
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full">
-                            <thead>
-                                <tr>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">順位</th>
-                                    <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">都道府県</th>
-                                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">回数</th>
-                                    <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">平均辛さレベル</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($nationalRankings as $ranking)
-                                <tr class="hover:bg-gray-50">
-                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        @if($ranking->rank == 1) <span class="text-yellow-500 text-lg font-bold">🥇 1位</span>
-                                        @elseif($ranking->rank == 2) <span class="text-gray-400 text-lg font-bold">🥈 2位</span>
-                                        @elseif($ranking->rank == 3) <span class="text-orange-500 text-lg font-bold">🥉 3位</span>
-                                        @else {{ $ranking->rank }}位
-                                        @endif
-                                    </td>
-                                    <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800">{{ $ranking->prefecture }}</td>
-                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ $ranking->total_count }}回</td>
-                                    <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ number_format($ranking->average_level, 1) }}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    @else
-                    <div class="text-center py-8 text-gray-500">
-                        <p>本日の全国くしゃみランキングデータはまだ集計されていません。</p>
-                    </div>
-                    @endif
-                    @elseif ($currentTab === 'personal')
-                    {{-- 個人ランキング表示 (小林さん担当) --}}
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">あなたの本日の記録</h3>
-                    @if($personalRankings && $personalRankings['sneeze_count'] > 0)
-                    <div class="flex items-center justify-start p-4 bg-purple-500 text-white rounded-lg shadow-md">
-                        <span class="text-5xl mr-4">
-                            @if($personalRankings['rank']) 👑 @else 🤧 @endif
-                        </span>
-                        <div>
-                            @if($personalRankings['rank'])
-                            <p class="text-lg font-bold">全国 {{ $personalRankings['rank'] }} 位 ({{ $personalRankings['prefecture'] }})</p>
-                            @endif
-                            <p class="text-lg font-bold">{{ $personalRankings['sneeze_count'] }}回</p>
-                            <p class="text-sm">平均辛さレベル: {{ $personalRankings['avg_level'] }}</p>
+                        @if($nationalRankings->isNotEmpty())
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">順位</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">都道府県</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">回数</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">平均辛さレベル</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($nationalRankings as $ranking)
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            @if($ranking->rank == 1) <span class="text-yellow-500 text-lg font-bold">🥇 1位</span>
+                                            @elseif($ranking->rank == 2) <span class="text-gray-400 text-lg font-bold">🥈 2位</span>
+                                            @elseif($ranking->rank == 3) <span class="text-orange-500 text-lg font-bold">🥉 3位</span>
+                                            @else {{ $ranking->rank }}位
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800">{{ $ranking->prefecture }}</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ $ranking->total_count }}回</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ number_format($ranking->average_level, 1) }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                    @else
-                    <div class="text-center py-8 text-gray-500">
-                        <p>本日のあなたのくしゃみ記録はまだありません。</p>
-                        <a href="{{ route('sneeze.create') }}" class="text-blue-500 hover:underline">記録しに行きましょう！</a>
-                    </div>
-                    @endif
+                        @else
+                        <div class="text-center py-8 text-gray-500">
+                            <p>本日の全国くしゃみランキングデータはまだ集計されていません。</p>
+                        </div>
+                        @endif
+
+                    @elseif ($currentTab === 'personal')
+                        {{-- ================= 個人ランキング表示(小林担当) ================= --}}
+                        
+                        {{-- 1. 自分の順位カード --}}
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">あなたの本日の成績</h3>
+                        @if(isset($myRanking))
+                        <div class="flex items-center justify-between p-6 bg-purple-600 text-white rounded-lg shadow-md mb-8">
+                            <div class="flex items-center">
+                                <span class="text-4xl mr-4">👤</span>
+                                <div>
+                                    <p class="text-sm opacity-80">全体順位</p>
+                                    <p class="text-3xl font-bold">
+                                        @if($myRanking['rank'] == 1) 🥇
+                                        @elseif($myRanking['rank'] == 2) 🥈
+                                        @elseif($myRanking['rank'] == 3) 🥉
+                                        @endif
+                                        {{ $myRanking['rank'] }} 位
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold">{{ $myRanking['sneeze_count'] }} 回</p>
+                                <p class="text-sm opacity-80">平均レベル: {{ $myRanking['avg_level'] }}</p>
+                            </div>
+                        </div>
+                        @else
+                        <div class="text-center py-4 mb-6 text-gray-500 bg-gray-50 rounded-lg border border-gray-200">
+                            <p class="mb-2">本日のあなたのくしゃみ記録はまだありません。</p>
+                            <a href="{{ route('sneeze.create') }}" class="text-blue-500 font-bold hover:underline">記録をつける</a>
+                        </div>
+                        @endif
+
+                        {{-- 2. ユーザーランキングリスト（TOP10） --}}
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">ユーザーTOP 10</h3>
+                        @if($personalRankings->isNotEmpty())
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">順位</th>
+                                        <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">ユーザー名</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">回数</th>
+                                        <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">平均辛さ</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    @foreach($personalRankings as $index => $ranking)
+                                    {{-- 自分の行だけ色を変えて目立たせる --}}
+                                    <tr class="{{ Auth::check() && $ranking->user_id == Auth::id() ? 'bg-purple-50' : 'hover:bg-gray-50' }}">
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            @if($index + 1 == 1) <span class="text-yellow-500 text-lg font-bold">🥇 1位</span>
+                                            @elseif($index + 1 == 2) <span class="text-gray-400 text-lg font-bold">🥈 2位</span>
+                                            @elseif($index + 1 == 3) <span class="text-orange-500 text-lg font-bold">🥉 3位</span>
+                                            @else {{ $index + 1 }}位
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm text-gray-800">
+                                            {{ $ranking->user->name }}
+                                            @if(Auth::check() && $ranking->user_id == Auth::id())
+                                                <span class="ml-2 px-2 py-0.5 bg-purple-200 text-purple-800 text-xs rounded-full">あなた</span>
+                                            @endif
+                                        </td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ $ranking->total_count }}回</td>
+                                        <td class="px-4 py-2 whitespace-nowrap text-sm font-bold text-gray-800 text-right">{{ number_format($ranking->avg_level, 1) }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        @else
+                        <div class="text-center py-8 text-gray-500">
+                            <p>本日の記録データはまだありません。一番乗りを目指そう！</p>
+                        </div>
+                        @endif
                     @endif
                 </div>
             </div>

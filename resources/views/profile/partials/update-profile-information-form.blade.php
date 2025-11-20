@@ -125,13 +125,13 @@
                                 class="sr-only peer"
                                 {{ old('allergy_sensitivity', $user->allergy_sensitivity ?? 3) == $i ? 'checked' : '' }}
                             >
-                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all
-                                {{ $i == 1 ? 'peer-checked:bg-blue-500 peer-checked:border-blue-500 peer-checked:text-white bg-gray-100 border-gray-300' : '' }}
-                                {{ $i == 2 ? 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' : '' }}
-                                {{ $i == 3 ? 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' : '' }}
-                                {{ $i == 4 ? 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' : '' }}
-                                {{ $i == 5 ? 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' : '' }}
-                                hover:border-gray-400">
+                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all shadow-sm hover:shadow-md bg-white border-gray-200 text-gray-500
+                            {{ $i == 1 ? 'peer-checked:bg-sky-400 peer-checked:border-sky-400 peer-checked:text-white' : '' }}
+                            {{ $i == 2 ? 'peer-checked:bg-teal-400 peer-checked:border-teal-400 peer-checked:text-white' : '' }}
+                            {{ $i == 3 ? 'peer-checked:bg-yellow-400 peer-checked:border-yellow-400 peer-checked:text-white' : '' }}
+                            {{ $i == 4 ? 'peer-checked:bg-orange-400 peer-checked:border-orange-400 peer-checked:text-white' : '' }}
+                            {{ $i == 5 ? 'peer-checked:bg-red-500 peer-checked:border-red-500 peer-checked:text-white' : '' }}
+                            hover:bg-gray-50">
                                 {{ $i }}
                             </div>
                         </label>
@@ -154,9 +154,13 @@
                                 class="sr-only peer"
                                 {{ old('temperature_sensitivity', $user->temperature_sensitivity ?? 3) == $i ? 'checked' : '' }}
                             >
-                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all
-                                {{ $i == 5 ? 'peer-checked:bg-orange-500 peer-checked:border-orange-500 peer-checked:text-white bg-gray-100 border-gray-300' : 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' }}
-                                hover:border-gray-400">
+                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all shadow-sm hover:shadow-md bg-white border-gray-200 text-gray-500
+                            {{ $i == 1 ? 'peer-checked:bg-sky-400 peer-checked:border-sky-400 peer-checked:text-white' : '' }}
+                            {{ $i == 2 ? 'peer-checked:bg-teal-400 peer-checked:border-teal-400 peer-checked:text-white' : '' }}
+                            {{ $i == 3 ? 'peer-checked:bg-yellow-400 peer-checked:border-yellow-400 peer-checked:text-white' : '' }}
+                            {{ $i == 4 ? 'peer-checked:bg-orange-400 peer-checked:border-orange-400 peer-checked:text-white' : '' }}
+                            {{ $i == 5 ? 'peer-checked:bg-red-500 peer-checked:border-red-500 peer-checked:text-white' : '' }}
+                            hover:bg-gray-50">
                                 {{ $i }}
                             </div>
                         </label>
@@ -179,9 +183,13 @@
                                 class="sr-only peer"
                                 {{ old('weather_sensitivity', $user->weather_sensitivity ?? 3) == $i ? 'checked' : '' }}
                             >
-                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all
-                                {{ $i == 4 ? 'peer-checked:bg-purple-500 peer-checked:border-purple-500 peer-checked:text-white bg-gray-100 border-gray-300' : 'peer-checked:bg-gray-300 peer-checked:border-gray-400 peer-checked:text-gray-800 bg-gray-100 border-gray-300' }}
-                                hover:border-gray-400">
+                            <div class="py-3 text-center rounded-lg border-2 cursor-pointer transition-all shadow-sm hover:shadow-md bg-white border-gray-200 text-gray-500
+                            {{ $i == 1 ? 'peer-checked:bg-sky-400 peer-checked:border-sky-400 peer-checked:text-white' : '' }}
+                            {{ $i == 2 ? 'peer-checked:bg-teal-400 peer-checked:border-teal-400 peer-checked:text-white' : '' }}
+                            {{ $i == 3 ? 'peer-checked:bg-yellow-400 peer-checked:border-yellow-400 peer-checked:text-white' : '' }}
+                            {{ $i == 4 ? 'peer-checked:bg-orange-400 peer-checked:border-orange-400 peer-checked:text-white' : '' }}
+                            {{ $i == 5 ? 'peer-checked:bg-red-500 peer-checked:border-red-500 peer-checked:text-white' : '' }}
+                            hover:bg-gray-50">
                                 {{ $i }}
                             </div>
                         </label>
@@ -193,7 +201,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button class="bg-pink-500 hover:bg-pink-600">{{ __('設定を保存') }}</x-primary-button>
+            <x-primary-button class="bg-gray-800 hover:bg-gray-700">{{ __('設定を保存') }}</x-primary-button>
 
             @if (session('status') === 'profile-updated')
                 <p
