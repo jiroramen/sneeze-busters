@@ -18,5 +18,8 @@
 - DB MariaDB 10.4.32
 - Laravel 12.34.0
 
+## 設計書
+[設計書ページへ](https://docs.google.com/document/d/1s2W7jYhlvbwEM_HERDYPSCeyGVQoAkoU-bpm12gS9rE/edit?tab=t.0#heading=h.gze1og4bd56j)
+
 ## システム閲覧
 ※構築中
