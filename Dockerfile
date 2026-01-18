@@ -32,3 +32,6 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # 7. ポート設定
 EXPOSE 80
+
+# 8. データベースのマイグレーションとシーディングの実行
+RUN php artisan migrate --force && php artisan db:seed --force
