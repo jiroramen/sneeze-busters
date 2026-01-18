@@ -9,6 +9,6 @@ composer install --no-dev --optimize-autoloader
 php artisan config:clear
 php artisan cache:clear
 
-# 【重要】データベースの準備（ログインエラーの解消のため）
-# 既存のテーブルを一度消して作り直す「:refresh」を使い、確実にデモユーザーを入れます
-php artisan migrate:refresh --force --seed
+# 本番環境でテーブルを作り、デモユーザーを入れる
+php artisan migrate --force
+php artisan db:seed --force

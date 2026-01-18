@@ -32,3 +32,9 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 # 7. ポート設定
 EXPOSE 80
+
+# 8. 権限を与えて実行可能にする
+RUN chmod +x /var/www/html/render-build.sh
+
+# 9. マイグレーションとシードを実行する
+RUN /var/www/html/render-build.sh
