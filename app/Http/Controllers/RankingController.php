@@ -54,7 +54,9 @@ class RankingController extends Controller
                 $rank = SneezeLog::whereDate('created_at', $today)
                     ->groupBy('user_id')
                     ->selectRaw('SUM(count) as total_count')
-                    ->having('total_count', '>', $myStats->total_count)
+                    // MySQLの場合
+                    // ->having('total_count', '>', $myStats->total_count)
+                    ->havingRaw('SUM(count) > ?', [$myStats->total_count])
                     ->get()
                     ->count() + 1;
 
