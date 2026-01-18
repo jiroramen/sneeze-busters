@@ -67,7 +67,9 @@ class StatisticsController extends Controller
 
         // --- 曜日別データ計算 ---
         $dayOfWeekCounts = SneezeLog::where('user_id', $user->id)
-            ->selectRaw('DAYOFWEEK(created_at) as day_of_week, sum(count) as total_count')
+        // MySQLの場合
+        // ->selectRaw('DAYOFWEEK(created_at) as day_of_week, sum(count) as total_count')
+            ->selectRaw('EXTRACT(DOW FROM created_at) as day_of_week, sum(count) as total_count')
             ->groupBy('day_of_week')
             ->orderBy('day_of_week')
             ->get();
@@ -82,14 +84,29 @@ class StatisticsController extends Controller
             '金' => 0,
             '土' => 0,
         ];
-        $dayMap = [1 => '日', 2 => '月', 3 => '火', 4 => '水', 5 => '木', 6 => '金', 7 => '土'];
+        // $dayMap = [1 => '日', 2 => '月', 3 => '火', 4 => '水', 5 => '木', 6 => '金', 7 => '土'];
+
+        // PostgreSQLのDOW（0=日, 1=月...）に合わせたマッピング
+        $dayMap = [0 => '日', 1 => '月', 2 => '火', 3 => '水', 4 => '木', 5 => '金', 6 => '土'];
+
+       //MySQLの場合はforeach ($dayOfWeekCounts as $entry) {
+       //  foreach ($dayOfWeekCounts as $entry) {
+            // $dayLabel = $dayMap[$entry->day_of_week] ?? null;
+            // if ($dayLabel) {
+            //     $weeklyCounts[$dayLabel] = $entry->total_count; 
+            // }
+        // }
 
         foreach ($dayOfWeekCounts as $entry) {
-            $dayLabel = $dayMap[$entry->day_of_week] ?? null;
+        // float型で返ってくることがあるのでintにキャストしておく
+            $dayIndex = (int)$entry->day_of_week;
+            $dayLabel = $dayMap[$dayIndex] ?? null;
+            
             if ($dayLabel) {
-                $weeklyCounts[$dayLabel] = $entry->total_count; 
-            }
+                $weeklyCounts[$dayLabel] = (int)$entry->total_count; 
+            }   
         }
+
         // --- あなたのくしゃみパターンコメント生成 ---
         $sneezePatternComment = $this->generateSneezePatternComment($timeSlotsData, $weeklyCounts, $totalSneezeCount);
 

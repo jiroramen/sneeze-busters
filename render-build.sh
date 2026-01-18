@@ -16,3 +16,4 @@ php artisan db:seed --force
 # フロントエンドのビルド
 npm install
 npm run build
+php artisan view:clear
