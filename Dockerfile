@@ -1,28 +1,34 @@
-# 1. 安定していて使いやすい公式ベースイメージに変更
-FROM webdevops/php-apache:8.2
+# 1. Laravelに最適化されたベースイメージ（設定が楽なものに変更）
+FROM php:8.2-apache
 
-# 2. 作業ディレクトリを設定
-WORKDIR /app
-
-# 3. 必要なシステムファイルをインストール
+# 2. 必要なライブラリのインストール（PostgreSQL用の libpq-dev を追加しました）
 RUN apt-get update && apt-get install -y \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
+    libpq-dev \
     zip \
     unzip \
+    git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql pdo_pgsql
 
-# 4. Apacheの設定（Laravelのpublicフォルダを公開するように設定）
-ENV WEB_DOCUMENT_ROOT=/app/public
+# 3. Apacheの設定（公開ディレクトリをpublicに変更）
+ENV APACHE_DOCUMENT_ROOT /var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/伺服器/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+RUN a2enmod rewrite
 
-# 5. プロジェクトのファイルをすべてコピー
+# 4. プロジェクトのファイルをコピー
+WORKDIR /var/www/html
 COPY . .
 
-# 6. Composer（PHPのライブラリ管理）をインストールして実行
+# 5. Composerをインストールして依存関係を解決
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 7. フォルダの権限を変更（Laravelが動くために必要）
-RUN chown -R www-data:www-data /app/storage /app/bootstrap/cache
+# 6. フォルダの権限設定
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
+# 7. ポート設定
+EXPOSE 80
