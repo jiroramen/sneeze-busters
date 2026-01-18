@@ -32,7 +32,9 @@ class StatisticsController extends Controller
 
         // 時間帯別の生データを取得
         $hourlyCounts = SneezeLog::where('user_id', $user->id)
-            ->selectRaw('HOUR(created_at) as hour, sum(count) as total_count')
+        // MySQLの場合
+        // ->selectRaw('HOUR(created_at) as hour, sum(count) as total_count')
+            ->selectRaw('EXTRACT(HOUR FROM created_at) as hour, sum(count) as total_count')
             ->groupBy('hour')
             ->orderBy('hour')
             ->get();
