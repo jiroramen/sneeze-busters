@@ -64,26 +64,3 @@ Route::middleware('auth')->group(function () {
 
 // Breezeの認証ルート（login, register, logoutなど）の読み込み
 require __DIR__ . '/auth.php';
-
-// routes/web.php
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
-
-Route::get('/setup-db', function () {
-    try {
-        // 1. 接続確認
-        DB::connection()->getPdo();
-        
-        // 2. 既存のテーブルを「強制的にすべて削除」してから作り直す
-        // これにより Duplicate table エラーを物理的に回避します
-        Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
-        $output = Artisan::output();
-        
-        return "<h3>データベースを真っさらにして再構築しました！</h3>" . 
-               "<pre>" . $output . "</pre>" .
-               "<br><a href='/'>ホームへ戻る</a>";
-               
-    } catch (\Exception $e) {
-        return "エラーが発生しました: <br><pre>" . $e->getMessage() . "</pre>";
-    }
-});
