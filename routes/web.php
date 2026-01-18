@@ -67,17 +67,23 @@ require __DIR__ . '/auth.php';
 
 // routes/web.php
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
-// ブラウザで https://あなたのアプリ名.onrender.com/setup-db にアクセスすると実行される
 Route::get('/setup-db', function () {
     try {
-        // テーブル作成
-        Artisan::call('migrate', ['--force' => true]);
-        // デモデータ投入
-        Artisan::call('db:seed', ['--force' => true]);
+        // 1. 接続確認
+        DB::connection()->getPdo();
         
-        return "データベースの準備が完了しました！ <a href='/'>ホームへ</a>";
+        // 2. 既存のテーブルをすべて消して作り直す（refresh）
+        // これで "Duplicate table" エラーを回避できます
+        Artisan::call('migrate:refresh', ['--force' => true, '--seed' => true]);
+        $output = Artisan::output();
+        
+        return "<h3>データベースのリセットと準備が完了しました！</h3>" . 
+               "<pre>" . $output . "</pre>" .
+               "<br><a href='/'>ホームへ戻る</a>";
+               
     } catch (\Exception $e) {
-        return "エラー発生: " . $e->getMessage();
+        return "エラーが発生しました: <br><pre>" . $e->getMessage() . "</pre>";
     }
 });
