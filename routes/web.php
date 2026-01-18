@@ -64,3 +64,20 @@ Route::middleware('auth')->group(function () {
 
 // Breezeの認証ルート（login, register, logoutなど）の読み込み
 require __DIR__ . '/auth.php';
+
+// routes/web.php
+use Illuminate\Support\Facades\Artisan;
+
+// ブラウザで https://あなたのアプリ名.onrender.com/setup-db にアクセスすると実行される
+Route::get('/setup-db', function () {
+    try {
+        // テーブル作成
+        Artisan::call('migrate', ['--force' => true]);
+        // デモデータ投入
+        Artisan::call('db:seed', ['--force' => true]);
+        
+        return "データベースの準備が完了しました！ <a href='/'>ホームへ</a>";
+    } catch (\Exception $e) {
+        return "エラー発生: " . $e->getMessage();
+    }
+});
