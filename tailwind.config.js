@@ -19,11 +19,7 @@ export default {
 
     plugins: [forms],
 
-    module.exports = {
-        // ...
-        safelist: [
-            { pattern: /(bg|text|border)-(red|blue|green|yellow|purple)-(100|400|500)/ },
-        ],
-    }
-
+    safelist: [
+        { pattern: /(bg|text|border)-(red|blue|green|yellow|purple)-(100|400|500)/ },
+    ],
 };
