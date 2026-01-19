@@ -29,7 +29,7 @@ class RankingController extends Controller
         // 'national_rankings_' . $today という名前で1時間保存
         $nationalRankings = Cache::remember('national_rankings_' . $today, 3600, function () use ($today) {
             // 1. まず現在の SneezeLog から都道府県別に合計を集計する（最新状態の計算）
-            $summary = SneezeLog::whereDate('created_at', $today)
+            $summary = SneezeLog::whereDate('sneeze_logs.created_at', $today)
                 ->join('users', 'sneeze_logs.user_id', '=', 'users.id')
                 ->select('users.prefecture', DB::raw('SUM(sneeze_logs.count) as total'))
                 ->groupBy('users.prefecture')
