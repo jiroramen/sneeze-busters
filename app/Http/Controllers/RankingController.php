@@ -47,7 +47,7 @@ class RankingController extends Controller
                         'prefecture' => $data->prefecture
                     ],
                     [
-                        'count' => $data->total,
+                        'total_count' => $data->total,
                         // 順位(rank)は後で一括でつけるので一旦0など
                         'rank' => 0 
                     ]
