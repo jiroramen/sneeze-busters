@@ -31,7 +31,9 @@ class RankingController extends Controller
         $personalRankings = SneezeLog::whereDate('created_at', $today)
             ->select('user_id', DB::raw('SUM(count) as total_count'), DB::raw('AVG(level) as avg_level'))
             ->groupBy('user_id')
-            ->orderBy('total_count', 'desc') // 回数が多い順
+            // MySQLの場合
+            // ->orderBy('total_count', 'desc') // 回数が多い順
+            ->orderByRaw('SUM(count) DESC') // PostgreSQLでは計算式を直接指定
             ->with('user') // ユーザー名を表示するためにリレーションをロード
             ->take(10) // 上位10名を表示
             ->get();

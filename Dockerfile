@@ -33,9 +33,7 @@ RUN composer install --no-dev --optimize-autoloader
 # 6. 【重要】Node.jsの依存関係をインストールしてCSSをビルド
 RUN npm ci && npm run build
 
-# 7. Laravelのキャッシュを作成（起動時間短縮）
-RUN php artisan config:cache || true
-RUN php artisan route:cache || true
+# 7. Laravelのキャッシュを最適化
 RUN php artisan view:cache || true
 
 # 8. フォルダの権限設定
