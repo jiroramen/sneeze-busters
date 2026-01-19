@@ -25,12 +25,8 @@
 - **Infrastructure**: Render (Docker / Apache)
 - **Build Tool**: Vite / npm
 
-## インフラ構成・工夫した点
-- **Dockerによる環境構築**: 
-    Dockerfileを用いたコンテナ管理により、Render（PaaS）へのスムーズなデプロイを実現
-- **PostgreSQLへの最適化**: 
-    MySQL用のSQL関数（`HOUR`, `DAYOFWEEK`）をPostgreSQL用の `EXTRACT` 関数に書き換えるなど、DBエンジンの仕様に合わせたクエリ改修
-- **キャッシュ戦略**: 
-    `Cache::remember` を活用し、全国ランキングの集計処理を1時間キャッシュ。サーバー負荷を抑えつつ、無料枠での安定運用を実現
-- **アセットビルドの自動化**: 
-    `render-build.sh` を通じたフロントエンド・アセットの自動コンパイル（Vite）と、権限管理の自動化
+## システム閲覧
+[アプリケーションページへ](https://sneeze-busters.onrender.com/login)
+
+## テストアカウント情報
+ログイン画面に遷移後、「デモアカウントで入る」を押下してください。
