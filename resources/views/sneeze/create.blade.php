@@ -43,11 +43,12 @@
                     </div>
                 </div>
 
-                {{-- メモ (オプション) --}}
+                {{-- メモ (オプション) 
                 <div class="dashboard-card p-6 mb-8">
                     <h4 class="text-lg font-bold text-gray-800 mb-4">メモ (オプション)</h4>
                     <textarea name="memo" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-pink-500 focus:border-pink-500 transition-colors" rows="4" placeholder="例: 外出中、花粉が多い気がする…"></textarea>
                 </div>
+                --}}
 
                 {{-- 記録するボタン --}}
                 <button type="submit" class="w-full bg-pink-500 text-white py-4 rounded-xl text-xl font-bold hover:bg-pink-600 transition-colors">
@@ -62,7 +63,7 @@
                 <ul class="list-disc list-inside text-sm space-y-1">
                     <li>辛さレベルは、くしゃみの強さで判断してください</li>
                     <li>複数回連続でくしゃみが出た場合は、回数を増やしてください</li>
-                    <li>メモに環境や状況を記録すると、原因分析がより正確になります</li>
+                    {{--  <li>メモに環境や状況を記録すると、原因分析がより正確になります</li> --}}
                 </ul>
             </div>
 

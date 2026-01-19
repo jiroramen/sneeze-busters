@@ -13,7 +13,8 @@ class SneezeLog extends Model
         'user_id',
         'level',
         'count',
-        'memo',
+        // memoは任意入力
+        // 'memo',
         'prefecture',
     ];
 

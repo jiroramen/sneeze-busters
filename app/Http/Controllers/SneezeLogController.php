@@ -23,7 +23,8 @@ class SneezeLogController extends Controller
         $request->validate([
             'level' => ['required', 'integer', 'min:1', 'max:5'],
             'count' => ['required', 'integer', 'min:1'],
-            'memo' => ['nullable', 'string', 'max:500'],
+            // memoは任意入力
+            // 'memo' => ['nullable', 'string', 'max:500'],
         ]);
 
         // くしゃみログをデータベースに保存
@@ -31,7 +32,8 @@ class SneezeLogController extends Controller
             'user_id' => Auth::id(),
             'level' => $request->level,
             'count' => $request->count,
-            'memo' => $request->memo,
+            // memoは任意入力
+            // 'memo' => $request->memo,
             // 'prefecture' は、WeatherControllerから渡すか、後でGeoIPで取得
             'prefecture' => Auth::user()->prefecture ?? null, // ユーザーの登録都道府県を初期値に
         ]);
