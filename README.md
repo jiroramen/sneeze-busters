@@ -1,87 +1,32 @@
-# Weathertainment
+# 鼻ムズバスターズ (Sneeze Busters) 🤧
 
-<p align="center">
-  <!-- ここに後でアプリのスクリーンショットなどを挿入すると、より魅力的になります -->
-  <img src="" alt="アプリのスクリーンショット" width="700">
-</p>
-
-<p align="center">
-  <strong>毎日天気を見る退屈さを、楽しみに変える。</strong><br>
-  今日の「生活あるある」をユーモラスな確率で可視化する、新感覚のお天気エンターテイメントアプリです。
-</p>
+**「今、どこで誰がくしゃみをしているか」を可視化する、花粉症・鼻炎ユーザーのためのくしゃみ記録・共有プラットフォーム。**
 
 ---
 
-## チーム開発メンバー
+## 概要
+鼻ムズバスターズは、日々のくしゃみを「強度」とともに記録し、自身の体調管理だけでなく、全国のユーザーと状況を共有できるWebアプリケーションです。
+「自分のくしゃみはいつ多いのか？」を分析する統計機能や、都道府県別の合計数を競う全国ランキング機能を搭載しています。
 
-*   **[あなたの名前]** - [GitHubアカウントへのリンク]
-*   **[メンバーBの名前]** - [GitHubアカウントへのリンク]
-*   **[メンバーCの名前]** - [GitHubアカウントへのリンク]
+## 主な機能
+- **くしゃみ記録**: 強度（1〜5）を選択してワンタップで記録
+- **統計分析**: 
+    - 時間帯別・曜日別のくしゃみ傾向を自動分析
+    - ユーザーの傾向に合わせたパーソナライズ・アドバイス
+- **全国ランキング**: 
+    - 都道府県別の累計くしゃみ数をランキング形式で表示
+    - キャッシュ戦略による1時間ごとの自動更新
+- **デモログイン機能**: 登録不要ですぐに機能を試せる「デモユーザー」ボタン
 
-## 1. プロジェクトのコンセプト
+## 使用技術
+- **Framework**: Laravel 11 / 12 (PHP 8.2)
+- **Frontend**: Tailwind CSS / Blade
+- **Database**: PostgreSQL (Render PostgreSQL)
+- **Infrastructure**: Render (Docker / Apache)
+- **Build Tool**: Vite / npm
 
-**「天気予報をエンターテイメントにする」**
+## システム閲覧
+[アプリケーションページへ](https://sneeze-busters.onrender.com/login)
 
-毎日の天気予報チェックという「作業」を、思わず誰かにシェアしたくなる「楽しみ」に変えることを目指しています。ユーザーの一日を、ほんの少しポジティブにするきっかけを提供します。
-
-## 2. 使用技術（技術スタック）
-
-*   **バックエンド:** Laravel (PHP)
-*   **フロントエンド:** Laravel Blade, CSS, JavaScript
-*   **データベース:** MySQL
-*   **外部API:** OpenWeatherMap API
-*   **開発環境:** XAMPP, VS Code
-*   **バージョン管理:** Git / GitHub
-*   **デプロイ先（予定）:** Heroku
-
-## 3. 開発環境の構築手順
-
-1.  このリポジトリをクローンします。
-    ```bash
-    git clone https://github.com/codingTaisey/weathertainment.git
-    ```
-2.  プロジェクトディレクトリに移動します。
-    ```bash
-    cd weathertainment
-    ```
-3.  `.env.example` ファイルをコピーして `.env` ファイルを作成します。
-    ```bash
-    # Windowsの場合
-    copy .env.example .env
-    # Mac/Linuxの場合
-    # cp .env.example .env
-    ```
-4.  `.env` ファイルを編集し、データベース接続情報とOpenWeatherMapのAPIキーを設定します。
-    ```env
-    DB_DATABASE=weathertainment
-    DB_USERNAME=root
-    DB_PASSWORD=
-
-    OPENWEATHERMAP_API_KEY="あなたのAPIキーをここに設定"
-    ```
-5.  Composerの依存関係をインストールします。
-    ```bash
-    composer install
-    ```
-6.  アプリケーションキーを生成します。
-    ```bash
-    php artisan key:generate
-    ```
-7.  XAMPP等で `weathertainment` という名前のデータベースを作成します。
-8.  データベースのマイグレーションを実行します。
-    ```bash
-    php artisan migrate
-    ```
-9.  開発サーバーを起動します。
-    ```bash
-    php artisan serve
-    ```
-10. ブラウザで `http://127.0.0.1:8000` にアクセスします。
-
-## 4. チーム開発のルール（ブランチ戦略）
-
-*   `main`ブランチは常に正常に動作する安定版とします。**`main`ブランチへの直接のpushは禁止**です。
-*   新機能の開発やバグ修正を行う際は、必ず`main`ブランチから新しいブランチを作成します。
-    *   ブランチ名の例: `feature/ranking-function`, `fix/display-bug`
-*   作業が完了したら、GitHubにブランチをpushし、**プルリクエスト（Pull Request）**を作成します。
-*   他のメンバーによる**コードレビュー**でLGTM（Looks Good To Me）が出たら、`main`ブランチにマージします。
+## テストアカウント情報
+ログイン画面に遷移後、「デモアカウントで入る」を押下してください。
