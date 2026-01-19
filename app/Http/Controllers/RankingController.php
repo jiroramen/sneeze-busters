@@ -4,11 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ranking;
-use App\Models\SneezeLog; // SneezeLogモデルも使うのでインポート
+use App\Models\SneezeLog;
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB; // 小林追加
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 
 class RankingController extends Controller
 {
@@ -18,10 +19,19 @@ class RankingController extends Controller
         $currentTab = $request->query('tab', 'national');
 
         // --- 全国ランキング関連のデータを取得 ---
-        $nationalRankings = Ranking::where('type', 'sneeze_count')
-            ->where('ranking_date', $today)
-            ->orderBy('rank', 'asc')
-            ->get();
+        // Heroku Scheduler用
+        // $nationalRankings = Ranking::where('type', 'sneeze_count')
+            // ->where('ranking_date', $today)
+            // ->orderBy('rank', 'asc')
+            // ->get();
+
+        // 'national_rankings_' . $today という名前で1時間保存
+        $nationalRankings = Cache::remember('national_rankings_' . $today, 3600, function () use ($today) {
+            return Ranking::where('type', 'sneeze_count')
+                ->where('ranking_date', $today)
+                ->orderBy('rank', 'asc')
+                ->get();
+                });
 
         $worstSneezePrefecture = $nationalRankings->first(); // 1位のデータを取得
 
