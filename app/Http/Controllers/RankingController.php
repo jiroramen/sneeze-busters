@@ -28,7 +28,7 @@ class RankingController extends Controller
 
         // 'national_rankings_' . $today という名前で1分間保存
         $nationalRankings = Cache::remember('national_rankings_' . $today, 60, function () use ($today) {
-            // 1. まず現在の SneezeLog から都道府県別に合計を集計する（最新状態の計算）
+            // 1. 集計
             $summary = SneezeLog::whereDate('sneeze_logs.created_at', $today)
                 ->join('users', 'sneeze_logs.user_id', '=', 'users.id')
                 ->select(
@@ -39,10 +39,14 @@ class RankingController extends Controller
                 ->groupBy('users.prefecture')
                 ->get();
 
-            // 2. 集計結果を Ranking テーブルに保存・更新する
-            // (Rankingテーブルにデータがあれば更新、なければ作成)
+            // ログが1件もなければ空のコレクションを返して終了
+            if ($summary->isEmpty()) {
+                return collect();
+            }
+
+            // 2. 保存
             foreach ($summary as $data) {
-                if (!$data->prefecture) continue; // 都道府県未設定はスキップ
+                if (empty($data->prefecture)) continue;
 
                 Ranking::updateOrCreate(
                     [
@@ -51,14 +55,14 @@ class RankingController extends Controller
                         'prefecture' => $data->prefecture
                     ],
                     [
-                        'total_count' => $data->total,
-                        'average_level' => $data->avg ?? 0,
+                        'total_count' => (int)$data->total,
+                        'average_level' => (float)($data->avg ?? 0),
                         'rank' => 0
                     ]
                 );
             }
 
-            // 3. 最後に順位(rank)を振り直す
+            // 3. 順位振り直し
             $allRanked = Ranking::where('type', 'sneeze_count')
                 ->where('ranking_date', $today)
                 ->orderBy('total_count', 'desc')
