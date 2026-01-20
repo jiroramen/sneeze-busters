@@ -68,8 +68,11 @@ class RankingController extends Controller
                 $r->update(['rank' => $index + 1]);
             }
 
-            // 4. 最新の状態を返す
-            return $allRanked;
+            // 4. DBから最新を取得して返す
+            return Ranking::where('type', 'sneeze_count')
+                ->where('ranking_date', $today)
+                ->orderBy('rank', 'asc')
+                ->get();
         });
 
         $worstSneezePrefecture = $nationalRankings->first(); // 1位のデータを取得
