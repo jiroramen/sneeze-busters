@@ -166,7 +166,7 @@
             <div class="bg-gray-100 text-gray-700 p-6 rounded-2xl shadow-sm">
                 <h4 class="font-bold text-lg mb-2">ランキングについて</h4>
                 <p class="text-sm leading-relaxed">
-                    この全国ランキングは、1時間ごとに集計・更新されています。
+                    この全国ランキングは、1分ごとに集計・更新されています。
                     あなたが「くしゃみを記録」することで、あなたの都道府県のデータに貢献できます！
                 </p>
             </div>

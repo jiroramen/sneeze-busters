@@ -12,7 +12,7 @@ php artisan view:clear
 
 # 本番環境でテーブルを作り、デモユーザーを入れる
 php artisan migrate --force
-php artisan db:seed --force
+# php artisan db:seed --force
 
 # フロントエンドのビルド
 npm install
